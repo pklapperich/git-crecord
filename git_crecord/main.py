@@ -1,4 +1,5 @@
-from gettext import gettext as _
+import gettext
+gettext.install(None, unicode=True)
 from .gitrepo import GitRepo
 import os
 import sys

@@ -1,5 +1,6 @@
 # stuff related specifically to patch manipulation / parsing
-from gettext import gettext as _
+import gettext
+gettext.install(None, unicode=True)
 
 import cStringIO
 import re

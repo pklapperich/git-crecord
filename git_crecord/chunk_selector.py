@@ -1,4 +1,5 @@
-from gettext import gettext as _
+import gettext
+gettext.install(None, unicode=True)
 from . import util
 
 from . import encoding

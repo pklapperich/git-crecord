@@ -8,7 +8,8 @@
 # This software may be used and distributed according to the terms of the
 # GNU General Public License version 2 or any later version
 
-from gettext import gettext as _
+import gettext
+gettext.install(None, unicode=True)
 import os
 import subprocess
 import shutil

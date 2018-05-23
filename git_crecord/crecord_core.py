@@ -9,7 +9,8 @@
 
 '''text-gui based change selection during commit or qrefresh'''
 from __future__ import absolute_import
-from gettext import gettext as _
+import gettext
+gettext.install(None, unicode=True)
 from . import util
 import cStringIO
 import errno
