@@ -8,6 +8,7 @@
 # Much of this extension is based on Bryan O'Sullivan's record extension.
 
 '''text-gui based change selection during commit or qrefresh'''
+from __future__ import absolute_import
 from gettext import gettext as _
 from . import util
 import cStringIO
@@ -17,8 +18,8 @@ import tempfile
 import textwrap
 import subprocess
 
-import crpatch
-import chunk_selector
+from . import crpatch
+from . import chunk_selector
 
 def dorecord(ui, repo, commitfunc, *pats, **opts):
     def recordfunc(ui, repo, message, match, opts):
@@ -93,7 +94,7 @@ def dorecord(ui, repo, commitfunc, *pats, **opts):
         backupdir = os.path.join(repo.controldir(), 'record-backups')
         try:
             os.mkdir(backupdir)
-        except OSError, err:
+        except OSError as err:
             if err.errno != errno.EEXIST:
                 raise
         index_backup = None
@@ -196,7 +197,7 @@ def dorecord(ui, repo, commitfunc, *pats, **opts):
                 os.rmdir(backupdir)
                 if index_backup:
                     index_backup.write()
-            except OSError, NameError:
+            except OSError as NameError:
                 pass
 
     return recordfunc(ui, repo, "", None, opts)

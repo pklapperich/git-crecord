@@ -557,8 +557,9 @@ def parsepatch(fp):
             self.changedlines = []
             self.stream = []
 
-        def _range(self, (fromstart, fromend, tostart, toend, proc)):
+        def _range(self, xxx_todo_changeme):
             "Store range line info to associated instance variables."
+            (fromstart, fromend, tostart, toend, proc) = xxx_todo_changeme
             self.fromline = int(fromstart)
             self.toline = int(tostart)
             self.proc = proc
