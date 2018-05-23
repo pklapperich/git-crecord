@@ -1,3 +1,7 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 # util.py - utility functions from Mercurial
 #
 #  Copyright 2006, 2015 Matt Mackall <mpm@selenic.com>
@@ -8,6 +12,10 @@
 # This software may be used and distributed according to the terms of the
 # GNU General Public License version 2 or any later version
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
 import gettext
 gettext.install(None, unicode=True)
 import os

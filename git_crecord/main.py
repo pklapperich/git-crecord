@@ -1,3 +1,11 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
+from builtins import object
 import gettext
 gettext.install(None, unicode=True)
 from .gitrepo import GitRepo
@@ -8,7 +16,7 @@ from . import util
 import tempfile
 import argparse
 
-class Config:
+class Config(object):
     def get(self, section, item, default=None):
         try:
             return util.systemcall(['git', 'config', '--get', '%s.%s' % (section, item)], onerr=KeyError).rstrip('\n')
@@ -18,7 +26,7 @@ class Config:
     def set(self, section, item, value, source=""):
         raise NotImplementedError
 
-class Ui:
+class Ui(object):
     def __init__(self, repo):
         self.repo = repo
         self.config = Config()
@@ -118,7 +126,7 @@ class Ui:
             if opts['cleanup'] is None:
                 opts['cleanup'] = 'strip'
 
-            for k, v in opts.iteritems():
+            for k, v in opts.items():
                 if k in ('author', 'date', 'amend', 'signoff', 'cleanup'):
                     if v is None:
                         continue

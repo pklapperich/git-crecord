@@ -1,5 +1,13 @@
 #!/usr/bin/python2
 
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import map
+from builtins import *
 import os
 import fnmatch
 from setuptools import setup, find_packages
@@ -30,7 +38,7 @@ def man_path(fname):
     return os.path.join('share', 'man', 'man' + category), [fname]
 
 def man_files(pattern):
-    return map(man_path, map(man_name, glob(pattern)))
+    return list(map(man_path, list(map(man_name, glob(pattern)))))
 
 # monkey patch setuptools to use distutils owner/group functionality
 from setuptools.command import sdist
@@ -49,7 +57,7 @@ class build_py_new(build_py_org):
     def run(self):
         build_py_org.run(self)
         if not self.dry_run:
-            map(lambda x: generate_manpage(*x), map(lambda x: (x, man_name(x)), glob(__manpages__)))
+            list(map(lambda x: generate_manpage(*x), [(x, man_name(x)) for x in glob(__manpages__)]))
 build_py.build_py = build_py_new
 
 __name__ = "git-crecord"

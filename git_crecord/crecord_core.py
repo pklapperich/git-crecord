@@ -9,10 +9,17 @@
 
 '''text-gui based change selection during commit or qrefresh'''
 from __future__ import absolute_import
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
 import gettext
 gettext.install(None, unicode=True)
 from . import util
-import cStringIO
+import io
 import errno
 import os
 import tempfile
@@ -116,7 +123,7 @@ def dorecord(ui, repo, commitfunc, *pats, **opts):
                 elif f in added:
                     newly_added_backups[f] = tmpname
 
-            fp = cStringIO.StringIO()
+            fp = io.StringIO()
             all_backups = {}
             all_backups.update(backups)
             all_backups.update(newly_added_backups)
@@ -187,11 +194,11 @@ def dorecord(ui, repo, commitfunc, *pats, **opts):
         finally:
             # 5. finally restore backed-up files
             try:
-                for realname, tmpname in backups.iteritems():
+                for realname, tmpname in backups.items():
                     ui.debug('restoring %r to %r\n' % (tmpname, realname))
                     util.copyfile(tmpname, os.path.join(repo.path, realname))
                     os.unlink(tmpname)
-                for realname, tmpname in newly_added_backups.iteritems():
+                for realname, tmpname in newly_added_backups.items():
                     ui.debug('restoring %r to %r\n' % (tmpname, realname))
                     util.copyfile(tmpname, os.path.join(repo.path, realname))
                     os.unlink(tmpname)

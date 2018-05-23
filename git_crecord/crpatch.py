@@ -1,8 +1,17 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 # stuff related specifically to patch manipulation / parsing
+from future import standard_library
+standard_library.install_aliases()
+from builtins import map
+from builtins import *
+from builtins import object
 import gettext
 gettext.install(None, unicode=True)
 
-import cStringIO
+import io
 import re
 
 class PatchError(Exception):
@@ -259,10 +268,10 @@ class uiheader(patchnode):
                          (len(self.hunks),
                           sum([h.added + h.removed for h in self.hunks])))
                 break
-            fp.write(h)
+            fp.write(unicode(h))
 
     def prettystr(self):
-        x = cStringIO.StringIO()
+        x = io.StringIO()
         self.pretty(x)
         return x.getvalue()
 
@@ -535,7 +544,7 @@ class uihunk(patchnode):
         return self.header.filename()
 
     def prettystr(self):
-        x = cStringIO.StringIO()
+        x = io.StringIO()
         self.pretty(x)
         return x.getvalue()
 

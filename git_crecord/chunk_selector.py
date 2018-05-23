@@ -1,3 +1,15 @@
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import chr
+from builtins import range
+from builtins import *
+from builtins import object
+from past.utils import old_div
 import gettext
 gettext.install(None, unicode=True)
 from . import util
@@ -413,7 +425,7 @@ class CursesChunkSelector(object):
         # turn tabs into spaces
         instr = instr.expandtabs(4)
         try:
-            strlen = len(unicode(encoding.fromlocal(instr), code))
+            strlen = len(str(encoding.fromlocal(instr), code))
         except Exception:
             # if text is not utf8, then assume an 8-bit single-byte encoding.
             strlen = len(instr)
@@ -505,7 +517,7 @@ class CursesChunkSelector(object):
 
         # is reset to 0 at the beginning of printitem()
 
-        linesprinted = (xstart + len(t)) / self.xscreensize
+        linesprinted = old_div((xstart + len(t)), self.xscreensize)
         self.linesprintedtopadsofar += linesprinted
         return t
 
@@ -790,7 +802,7 @@ class CursesChunkSelector(object):
         # temporarily disable printing to windows by printstring
         patchdisplaystring = self.printitem(item, ignorefolding,
                                             recursechildren, towin=False)
-        numlines = len(patchdisplaystring) / self.xscreensize
+        numlines = old_div(len(patchdisplaystring), self.xscreensize)
         return numlines
 
     def sigwinchhandler(self, n, frame):

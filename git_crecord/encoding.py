@@ -6,7 +6,16 @@
 # GNU General Public License version 2 or any later version.
 
 from __future__ import absolute_import
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import chr
+from builtins import range
+from builtins import *
+from builtins import object
 import array
 import locale
 import os
@@ -37,7 +46,7 @@ else:
         return s
 
 if pycompat.ispy3:
-    unichr = chr
+    chr = chr
 
 # encoding.environ is provided read-only, which may not be used to modify
 # the process environment
@@ -50,7 +59,7 @@ else:
     # preferred encoding isn't known yet; use utf-8 to avoid unicode error
     # and recreate it once encoding is settled
     environ = dict((k.encode(u'utf-8'), v.encode(u'utf-8'))
-                   for k, v in os.environ.items())
+                   for k, v in list(os.environ.items()))
 
 def _getpreferredencoding():
     '''
@@ -190,7 +199,7 @@ if not _nativeenviron:
     # now encoding and helper functions are available, recreate the environ
     # dict to be exported to other modules
     environ = dict((tolocal(k.encode(u'utf-8')), tolocal(v.encode(u'utf-8')))
-                   for k, v in os.environ.items())
+                   for k, v in list(os.environ.items()))
 
 # How to treat ambiguous-width characters. Set to 'WFA' to treat as wide.
 wide = "WF"
@@ -209,7 +218,7 @@ def ucolwidth(d):
 def getcols(s, start, c):
     '''Use colwidth to find a c-column substring of s starting at byte
     index start'''
-    for x in xrange(start + c, len(s)):
+    for x in range(start + c, len(s)):
         t = s[start:x]
         if colwidth(t) == c:
             return t
@@ -301,7 +310,7 @@ def trim(s, width, ellipsis='', leftside=False):
     else:
         uslice = lambda i: u[:-i]
         concat = lambda s: s + ellipsis
-    for i in xrange(1, len(u)):
+    for i in range(1, len(u)):
         usub = uslice(i)
         if ucolwidth(usub) <= width:
             return concat(usub.encode(_sysstr(encoding)))
@@ -446,12 +455,12 @@ def toutf8b(s):
             c = getutf8char(s, pos)
             if "\xed\xb0\x80" <= c <= "\xed\xb3\xbf":
                 # have to re-escape existing U+DCxx characters
-                c = unichr(0xdc00 + ord(s[pos])).encode('utf-8')
+                c = chr(0xdc00 + ord(s[pos])).encode('utf-8')
                 pos += 1
             else:
                 pos += len(c)
         except UnicodeDecodeError:
-            c = unichr(0xdc00 + ord(s[pos])).encode('utf-8')
+            c = chr(0xdc00 + ord(s[pos])).encode('utf-8')
             pos += 1
         r += c
     return r
