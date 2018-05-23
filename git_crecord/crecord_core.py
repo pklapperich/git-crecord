@@ -16,8 +16,12 @@ from future import standard_library
 standard_library.install_aliases()
 from builtins import str
 from builtins import *
+import sys
 import gettext
-gettext.install(None, unicode=True)
+if sys.version_info[0] < 3:
+	gettext.install(None, unicode=True)
+else:
+	gettext.install(None)
 from . import util
 import io
 import errno

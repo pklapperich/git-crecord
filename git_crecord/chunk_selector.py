@@ -10,8 +10,12 @@ from builtins import range
 from builtins import *
 from builtins import object
 from past.utils import old_div
+import sys
 import gettext
-gettext.install(None, unicode=True)
+if sys.version_info[0] < 3:
+	gettext.install(None, unicode=True)
+else:
+	gettext.install(None)
 from . import util
 
 from . import encoding
@@ -19,7 +23,6 @@ code = encoding.encoding
 
 import os
 import re
-import sys
 import fcntl
 import struct
 import termios

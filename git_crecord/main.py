@@ -6,11 +6,14 @@ from future import standard_library
 standard_library.install_aliases()
 from builtins import *
 from builtins import object
+import sys
 import gettext
-gettext.install(None, unicode=True)
+if sys.version_info[0] < 3:
+	gettext.install(None, unicode=True)
+else:
+	gettext.install(None)
 from .gitrepo import GitRepo
 import os
-import sys
 from . import crecord_core
 from . import util
 import tempfile

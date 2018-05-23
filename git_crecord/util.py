@@ -16,12 +16,15 @@ from future import standard_library
 standard_library.install_aliases()
 from builtins import str
 from builtins import *
+import sys
 import gettext
-gettext.install(None, unicode=True)
+if sys.version_info[0] < 3:
+	gettext.install(None, unicode=True)
+else:
+	gettext.install(None)
 import os
 import subprocess
 import shutil
-import sys
 
 closefds = os.name == 'posix'
 
@@ -68,7 +71,7 @@ def systemcall(cmd, onerr=None, errprefix=None):
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, close_fds=closefds)
     out = ''
     for line in iter(p.stdout.readline, ''):
-        out = out + line
+        out = out + line.decode(sys.stdout.encoding)
     p.wait()
     rc = p.returncode
 
