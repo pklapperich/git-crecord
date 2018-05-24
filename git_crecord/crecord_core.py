@@ -57,7 +57,7 @@ def dorecord(ui, repo, commitfunc, *pats, **opts):
         if not opts['index']:
             git_base.append("HEAD")
 
-        p = subprocess.Popen(git_args + git_base, stdout=subprocess.PIPE, close_fds=util.closefds)
+        p = subprocess.Popen(git_args + git_base, stdout=subprocess.PIPE, close_fds=util.closefds, encoding='UTF-8')
         fp = p.stdout
 
         # 0. parse patch
@@ -157,7 +157,7 @@ def dorecord(ui, repo, commitfunc, *pats, **opts):
                 try:
                     ui.debug('applying patch\n')
                     ui.debug(fp.getvalue())
-                    p = subprocess.Popen(["git", "apply", "--whitespace=nowarn"], stdin=subprocess.PIPE, close_fds=util.closefds)
+                    p = subprocess.Popen(["git", "apply", "--whitespace=nowarn"], stdin=subprocess.PIPE, close_fds=util.closefds, encoding='UTF-8')
                     p.stdin.write(fp.read())
                     p.stdin.close()
                     p.wait()
@@ -211,5 +211,4 @@ def dorecord(ui, repo, commitfunc, *pats, **opts):
                     index_backup.write()
             except OSError as NameError:
                 pass
-
     return recordfunc(ui, repo, "", None, opts)

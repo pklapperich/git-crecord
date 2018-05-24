@@ -68,10 +68,10 @@ def systemcall(cmd, onerr=None, errprefix=None):
     except Exception:
         pass
 
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, close_fds=closefds)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, close_fds=closefds, encoding='UTF-8')
     out = ''
     for line in iter(p.stdout.readline, ''):
-        out = out + line.decode(sys.stdout.encoding)
+        out = out + line
     p.wait()
     rc = p.returncode
 

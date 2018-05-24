@@ -272,7 +272,7 @@ class uiheader(patchnode):
                          (len(self.hunks),
                           sum([h.added + h.removed for h in self.hunks])))
                 break
-            fp.write(unicode(h))
+            fp.write(str(h))
 
     def prettystr(self):
         x = io.StringIO()
