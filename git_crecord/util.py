@@ -68,7 +68,10 @@ def systemcall(cmd, onerr=None, errprefix=None):
     except Exception:
         pass
 
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, close_fds=closefds, encoding='UTF-8')
+    if sys.version_info <= (3, 0):
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, close_fds=closefds)
+    else:
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, close_fds=closefds, encoding='UTF-8')
     out = ''
     for line in iter(p.stdout.readline, ''):
         out = out + line
